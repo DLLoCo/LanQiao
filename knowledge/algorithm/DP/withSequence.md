@@ -62,7 +62,64 @@ def	longestCommonSubsequence(str1,	str2)->	int:
     #i和j初始化为最后⼀个索引
     return	dp(len(str1)-1,	len(str2)-1)
 ```
+### 最大编辑距离
+- 思路：
+~~~plaintext
+if s1[i] == s2[j]:
+    啥都别做（skip）
+    i, j 同时向前移动
+else:
+    三选一：
+        插入（insert）
+        删除（delete）
+        替换（replace）
+~~~
+- 代码：
+~~~py
+def minDistance(s1, s2) -> int:
+    def dp(i, j):
+        # base case
+        if i == -1: return j + 1
+        if j == -1: return i + 1
 
+        if s1[i] == s2[j]:
+            return dp(i - 1, j - 1)  # 啥都不做
+        else:
+            return min(
+                dp(i, j - 1) + 1,  # 插入
+                dp(i - 1, j) + 1,  # 删除
+                dp(i - 1, j - 1) + 1  # 替换
+            )
+
+    # i，j 初始化指向最后⼀个索引
+    return dp(len(s1) - 1, len(s2) - 1)
+  # if s1[i] == s2[j]:
+      #return dp(i - 1, j - 1)  # 啥都不做
+  # 解释：
+  # 本来就相等，不需要任何操作
+  # s1[0..i] 和 s2[0..j] 的最小编辑距离等于
+  # s1[0..i-1] 和 s2[0..j-1] 的最小编辑距离
+  # 也就是说 dp(i, j) 等于 dp(i-1, j-1)
+
+  #dp(i, j - 1) + 1,    # 插入
+  # 解释：
+  # 我直接在 s1[i] 插入一个和 s2[j] 一样的字符
+  # 那么 s2[j] 就被匹配了，前移 j，继续跟 i 对比
+  # 别忘了操作数加
+
+  #dp(i - 1, j) + 1,    # 删除
+  # 解释：
+  # 我直接把 s[i] 这个字符删掉
+  # 前移 i，继续跟 j 对比
+  # 操作数加一
+
+  #dp(i - 1, j - 1) + 1 # 替换
+  # 解释：
+  # 我直接把 s1[i] 替换成 s2[j]，这样它俩就匹配了
+  # 同时前移 i，j 继续对比
+  # 操作数加一
+~~~
+- 动图详见[labuladong](https://mp.weixin.qq.com/s/uWzSvWWI-bWAV3UANBtyOw)
 ### LIS
 
 ![alt text](image.png)
