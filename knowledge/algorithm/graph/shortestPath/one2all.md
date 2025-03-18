@@ -68,7 +68,7 @@ def bellman_ford(edges, start, num_nodes):
 
 ---
 ### Dijstra
-证明见蓝桥杯算法进阶证明
+证明见《*蓝桥杯算法入门*》证明
 
 ---
 ### Bellman

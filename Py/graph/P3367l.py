@@ -37,7 +37,7 @@ def merge(x,y):
     global s
     rootx=find(x)
     rooty=find(y)
-    if rootx!=rooty:
+    if rootx!=rooty:#！ find(x)!=find(y),先缓存，不用递归
         s[rootx]=rooty#! s[x]=y 
     return
 
