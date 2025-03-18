@@ -40,6 +40,10 @@ def dijkstra(graph, start):
 
     return distance
 ```
+- 算法复杂度：
+	- 时间复杂度：O(ElogV)
+	- 空间复杂度：O(V)
+
 # Bellman-ford
 - 本质**dp**
 ```py
@@ -59,6 +63,98 @@ def bellman_ford(edges, start, num_nodes):
             return None  # 存在负权环
     return distance
 ```
+- 算法复杂度：
+	- 时间复杂度：O(VE)
+	- 空间复杂度：O(V)
+
+# SPFA
+### SPFA算法详解
+
+#### 算法背景
+- SPFA（Shortest Path Faster Algorithm）是Bellman-Ford算法的队列优化版本，
+- 用于求解**带负权边**的图单源最短路径问题。
+- 相比Bellman-Ford的O(VE)时间复杂度，SPFA在平均情况下可达O(E)，效率更高。
+
+#### 与Bellman-Ford的关系
+- **Bellman-Ford核心思想**：对图中所有边进行V-1轮松弛操作，确保找到最短路径。
+- **SPFA优化点**：通过队列仅对“可能松弛成功”的节点进行松弛，避免无效操作。
+- **共同点**：都能检测负权环；时间复杂度最坏情况下均为O(VE)。
+
+
+
+### Python代码模板
+
+```python
+from collections import deque
+"""
+算法流程
+1. 初始化距离数组`dist[]`，源点距离为0，其余为无穷大。
+2. 使用队列存储待松弛节点，源点入队。
+3. 取出队首节点`u`，遍历其邻接边`u→v`，若`dist[v] > dist[u] + w`：
+   - 更新`dist[v]`
+   - 若`v`不在队列中，则入队
+4. 重复步骤3直到队列空。
+5. 检测负环：若某节点入队次数≥V次，则存在负环。
+"""
+def spfa(n, graph, start):
+    # 初始化距离数组和入队标记
+    dist = [float('inf')] * n
+    dist[start] = 0
+    in_queue = [False] * n
+    queue = deque([start])
+    in_queue[start] = True
+    cnt = [0] * n  # 记录入队次数
+    
+    while queue:
+        u = queue.popleft()
+        in_queue[u] = False
+        for v, w in graph[u]:
+            if dist[v] > dist[u] + w:
+                dist[v] = dist[u] + w
+                # 更新，使松弛成功的节点进行松弛
+                if not in_queue[v]:
+                    queue.append(v)
+                    in_queue[v] = True
+                    cnt[v] += 1
+                    # 检测负环，若有负环，一直进入队列，直到cnt[v] >= n
+                    if cnt[v] >= n:
+                        return "存在负权环!"
+    return dist
+
+# 示例图构建（邻接表）
+n = 4
+graph = [
+    [(1,4), (2,5)],    # 0的邻接边
+    [(2,-2), (3,1)],    # 1的邻接边
+    [(3,3)],            # 2的邻接边
+    []                  # 3的邻接边
+]
+"""
+执行过程：
+1. 初始队列`[0]`，`dist[0]=0`
+2. 处理节点0，更新1(4)、2(5)，队列变为`[1,2]`
+3. 处理节点1，更新2(4+(-2)=2)、3(4+1=5)，队列变为`[2,3]`
+4. 处理节点2，尝试更新3(2+3=5，无变化)，队列变为`[3]`
+5. 处理节点3，无邻接边，队列空。最终最短路径为`[0,4,2,5]`
+"""
+"""
+图结构（节点0为源点）：
+0--4-->1
+|     ↓  \1
+5    ↓-2 ↘
+↓    2--3-->3
+2       
+"""
+print(spfa(n, graph, 0))  # 输出 [0,4,2,5]
+```
+
+
+### 关键点总结
+1. **队列优化**：仅松弛被更新的节点，避免Bellman-Ford的盲目松弛。
+2. **负环检测**：通过节点入队次数判断（≥V次则存在负环）。
+3. **性能对比**：稀疏图中SPFA优势明显，稠密图可能退化到O(VE)。
+4. **应用场景**：含负权边的最短路径问题（如费用流中的最短路增广）。
+
 ---
 # 证明
 ### 最优子结构
