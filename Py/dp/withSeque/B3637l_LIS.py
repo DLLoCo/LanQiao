@@ -10,3 +10,19 @@ for i in range(n):
 
 dp.sort()
 print(dp[n-1])
+"""
+import bisect
+
+n = int(input())
+s = list(map(int, input().split()))
+
+tail = []
+for num in s:
+    idx = bisect.bisect_left(tail, num)
+    if idx == len(tail):
+        tail.append(num)
+    else:
+        tail[idx] = num
+
+print(len(tail))
+"""
