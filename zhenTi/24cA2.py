@@ -1,28 +1,3 @@
-1. DFS:
-如何存储结果
-
-2. DP，bag：
-i，j的遍历
-i，j混淆
-
-## 列表索引0是否舍去：
-
-1.
-~~~py
-a=[0]*26 # 1~25
-for j in range(25):
-        a[j+1] = (i >> j) & 1
-# 错误：因为判断i的第j位是否为0，j从0开始
-for j in range(1,26):
-        a[j] = (i >> j) & 1
-~~~
-2. 注意一一对应
-
-## 循环更新res
-
-1. 记住在哪里更新
-~~~py
-# 五子棋 24cA2
 def check(a):
     b=[[0]*6 for i in range(6)]
     pos=1
@@ -48,4 +23,28 @@ def check(a):
     if x1==0 or x1==5 or x2==0 or x2==5:
         return 0
     return 1
-~~~
+
+ans=0
+#! (1<<25)-1 33554431 \\  1<<25-1 16777216
+for i in range(((1<<25)-1)):
+    cnt=0
+    a=[0]*26
+#! 如果这么写错误：因为判断i的第j位是否为0，j从0开始
+# """
+# for j in range(1,26):
+#     a[j] = (i >> j) & 1
+# """
+##    for j in range(25):
+##        a[j+1] = (i >> j) & 1
+##        if((i>>j)&1):
+##            cnt+=1
+    for j in range(1,26):
+        a[j]=i&1
+        if i&1:
+            cnt+=1
+        #! i>>1 i的值没有改变
+        i=(i>>1)
+    if cnt==13 and check(a):
+        ans+=1
+        
+print(ans)          
