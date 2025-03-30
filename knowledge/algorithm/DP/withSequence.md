@@ -1,5 +1,6 @@
-# 模板：
-子序列问题：这类问题都是让你求一个最长子序列，因为最短子序列就是一个字符嘛，没啥可问的。一旦涉及到子序列和最值，那几乎可以肯定，考察的是动态规划技巧，时间复杂度一般都是 O(n^2)。
+
+## 子序列问题：
+这类问题都是让你求一个最长子序列，因为最短子序列就是一个字符嘛，没啥可问的。一旦涉及到子序列和最值，那几乎可以肯定，考察的是动态规划技巧，时间复杂度一般都是 O(n^2)。
 
 原因很简单，你想想一个字符串，它的子序列有多少种可能？起码是指数级的吧，这种情况下，不用动态规划技巧，还想怎么着呢？
 
@@ -121,7 +122,40 @@ def minDistance(s1, s2) -> int:
 ~~~
 - 动图详见[labuladong](https://mp.weixin.qq.com/s/uWzSvWWI-bWAV3UANBtyOw)
 ### LIS
+1. 模板：
+   1. 动态规划：
+   ```py
+   n=int(input())
+   s=[int(i) for i in input().split()]
+   dp=[1]*n
 
+   #dp[i]=
+   for i in range(n):
+       for j in range(i):
+           if s[j]<s[i]:
+               dp[i]=max(dp[i],dp[j]+1)
+
+   dp.sort()
+   print(dp[n-1])
+   ```
+   2. 贪心二分：
+   ```py
+   import bisect
+
+   n = int(input())
+   s = list(map(int, input().split()))
+
+   tail = []
+   for num in s:
+       idx = bisect.bisect_left(tail, num)
+       if idx == len(tail):
+           tail.append(num)
+       else:
+           tail[idx] = num
+
+   print(len(tail))
+   ```
+2. eg:
 ![alt text](image.png)
  - **为什么要f[j]>f[i]+1**:
     在动态规划过程中，`f[j] + 1 > f[i]` 的条件用于确保每次转移都选择最优解。具体原因如下：
@@ -132,9 +166,10 @@ def minDistance(s1, s2) -> int:
     - 若 `f[j] + 1 > f[i]`，说明通过 `j` 转移到 `i` 更优，更新 `f[i]`；
     - 否则保留当前更优解。
 
-    3. **保证最大值**：可能有多个 `j` 满足转移条件（时间差足够移动），但需要选择其中最大的 `f[j] + 1`。条件判断确保每次只接受更优的转移，避免被较小的值覆盖。
+    1. **保证最大值**：可能有多个 `j` 满足转移条件（时间差足够移动），但需要选择其中最大的 `f[j] + 1`。条件判断确保每次只接受更优的转移，避免被较小的值覆盖。
 
     **总结**：该条件是为了在遍历所有可能的 `j` 时，动态更新 `f[i]` 为最大值，保证动态规划的正确性。
+## 回文
 
 ### 回文子串
 1. 思路：
