@@ -1,6 +1,6 @@
 ![alt text](<屏幕截图 2025-03-22 162915.png>)
 
-# 技巧
+## 技巧
 1. **暴力解法**：
 - 总结：
   - 暴力可以思考转换题目意思完再暴力
@@ -78,7 +78,7 @@ eg:
 这意思就是所有人都能得4分，不会零蛋。
 ~~~
 ---
-# 数据结构选择：
+## 数据结构选择：
 1. 
 **需要动态维护优先队列** → 用堆（如实时处理流式数据）。
 
@@ -97,7 +97,7 @@ eg:
 | 数组排序        | O(n log n)    | O(n² log n)   | **O(n² log n)** |
 
 ---
-## 降低时间复杂度：
+### 降低时间复杂度：
 1. 
 pc.pop(0)，每次循环都将m的第一个元素弹出。如果m是用列表实现的，那么每次pop(0)的时间复杂度是O(n)，因为列表需要移动所有后续元素。而如果n是1e5的话，这样的操作会导致总的时间复杂度是O(n^2)，这会超时。
 而正确的代码并没有使用pop操作，而是通过一个指针i来遍历排序后的列表。这样，整个处理过程是线性的，时间复杂度为O(n log n)（排序的时间复杂度）加上O(n)的处理时间，这在n=1e5时是可以接受的。
@@ -138,6 +138,9 @@ print(v,w)
 3. list，str:
  list 没有find()方法，str有find()方法。
  都有index()方法。
+  ~~~py
+  str.find(str, beg=0, end=len(string))
+  ~~~
 
 4. list 字母也可以排序。
 
@@ -155,11 +158,11 @@ obj -- 列表中要移除的对象。
 ## 优化：
 
 1. 优化读取速度，如果input 太多太长：
-~~~py
-import sys
-input = sys.stdin.readline
-# sys.setrecursionlimit(10**6)  # 增加递归深度限制
-~~~
+   ~~~py
+   import sys
+   input = sys.stdin.readline
+   # sys.setrecursionlimit(10**6)  # 增加递归深度限制
+   ~~~
 
 ---
 ## date库
@@ -183,61 +186,61 @@ total_seconds()：将timedelta对象转换为总秒数
 weekday()：返回星期几的数字，星期一为0，星期日为6。
 isoweekday()：返回星期几的数字，星期一为1，星期日为7。
 - 示例：
-~~~py
-from datetime import datetime
-now = datetime.now()
-print(now.strftime("%Y-%m-%d %H:%M:%S"))
+  ~~~py
+  from datetime import datetime
+  now = datetime.now()
+  print(now.strftime("%Y-%m-%d %H:%M:%S"))
 
-from datetime import datetime
-date_string = "2023-04-20 12:34:56"
-date_object = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
-print(date_object)
-# output:
-# 2023-04-20 12:34:56
+  from datetime import datetime
+  date_string = "2023-04-20 12:34:56"
+  date_object = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+  print(date_object)
+  # output:
+  # 2023-04-20 12:34:56
 
-from datetime import datetime
-date1 = datetime(2023, 4, 20)
-date2 = datetime(2023, 4, 25)
-delta = date2 - date1
-print(delta.days)
-# output:
-# 5
+  from datetime import datetime
+  date1 = datetime(2023, 4, 20)
+  date2 = datetime(2023, 4, 25)
+  delta = date2 - date1
+  print(delta.days)
+  # output:
+  # 5
 
-from datetime import timedelta
-delta = timedelta(days=5)
-total_seconds = delta.total_seconds()
-print(total_seconds)
-# output:
-# 432000.0
+  from datetime import timedelta
+  delta = timedelta(days=5)
+  total_seconds = delta.total_seconds()
+  print(total_seconds)
+  # output:
+  # 432000.0
 
-from datetime import date
-today = date.today()
-print(today)
-print(today.weekday())
-print(today.isoweekday  ())
-# output:
-# 
-# 6
-~~~
+  from datetime import date
+  today = date.today()
+  print(today)
+  print(today.weekday())
+  print(today.isoweekday  ())
+  # output:
+  # 
+  # 6
+  ~~~
 
 ## 日期题目
 1. 优美写法：
-~~~py
-def leap(y):                         #判断闰年
-    return y % 400 == 0 or y % 4 == 0 and y % 100 != 0
-ans = 0
-d = [31,28,31,30,31,30,31,31,30,31,30,31]
-for i in range(2000, 1999999+1):      #年
-    if leap(i):   d[1] = 29
-    else:         d[1] = 28
-    for j in range(1, 12+1):          #月
-        for k in range(1, d[j-1]+1):  #日
-            if (i % j) == 0 and (i % k) == 0:
-                ans += 1
-ans += 1        # 2000000.1.1  不要忘记这个日期
-print(ans)      # 输出：35813063
-# 运行时间很长，直接提交代码会超时。这是填空题，提交结果就行。
-~~~
+   ~~~py
+   def leap(y):                         #判断闰年
+       return y % 400 == 0 or y % 4 == 0 and y % 100 != 0
+   ans = 0
+   d = [31,28,31,30,31,30,31,31,30,31,30,31]
+   for i in range(2000, 1999999+1):      #年
+       if leap(i):   d[1] = 29
+       else:         d[1] = 28
+       for j in range(1, 12+1):          #月
+           for k in range(1, d[j-1]+1):  #日
+               if (i % j) == 0 and (i % k) == 0:
+                   ans += 1
+   ans += 1        # 2000000.1.1  不要忘记这个日期
+   print(ans)      # 输出：35813063
+   # 运行时间很长，直接提交代码会超时。这是填空题，提交结果就行。
+   ~~~
 
 ## 概念：
 1. **子树（Subtree）**：

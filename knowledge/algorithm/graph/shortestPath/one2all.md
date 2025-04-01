@@ -67,6 +67,60 @@ def bellman_ford(edges, start, num_nodes):
 	- 时间复杂度：O(VE)
 	- 空间复杂度：O(V)
 
+#### **eg:Bellman-Ford算法实例**
+- **节点**：0（源点），1，2，3  
+- **有向边及权重**（按松弛顺序排列）：
+  1. \( 2 \xrightarrow{-3} 3 \)  
+  2. \( 1 \xrightarrow{1} 2 \)  
+  3. \( 0 \xrightarrow{4} 1 \)  
+  4. \( 0 \xrightarrow{5} 3 \)  
+- **目标**：从源点0出发，计算到所有节点的最短路径。
+
+#### **算法执行步骤**
+
+1. **初始化**  
+距离数组：\( \text{dist} = [0, \infty, \infty, \infty] \)
+
+
+2. **第1轮松弛**  
+   1. 处理 \( 2 \xrightarrow{-3} 3 \)：  
+      - \( \text{dist}[2] = \infty \)，无法更新 \( \text{dist}[3] \)。  
+   2. 处理 \( 1 \xrightarrow{1} 2 \)：  
+      - \( \text{dist}[1] = \infty \)，无法更新 \( \text{dist}[2] \)。  
+   3. 处理 \( 0 \xrightarrow{4} 1 \)：  
+      - \( \text{dist}[1] = \min(\infty, 0+4) = 4 \)。  
+   4. 处理 \( 0 \xrightarrow{5} 3 \)：  
+      - \( \text{dist}[3] = \min(\infty, 0+5) = 5 \)。  
+
+   **更新后距离**：\( [0, 4, \infty, 5] \)
+
+3. **第2轮松弛**  
+   1. 处理 \( 2 \xrightarrow{-3} 3 \)：  
+      - \( \text{dist}[2] = \infty \)，仍无法更新。  
+   2. 处理 \( 1 \xrightarrow{1} 2 \)：  
+      - \( \text{dist}[2] = \min(\infty, 4+1) = 5 \)。  
+   3. 处理 \( 0 \xrightarrow{4} 1 \)：  
+      - 无变化（已最优）。  
+   4. 处理 \( 0 \xrightarrow{5} 3 \)：  
+      - 无变化（已最优）。  
+
+  **更新后距离**：\( [0, 4, 5, 5] \)
+
+
+3. **第3轮松弛**  
+   1. 处理 \( 2 \xrightarrow{-3} 3 \)：  
+      - \( \text{dist}[3] = \min(5, 5+(-3)) = 2 \)。  
+   2. 处理其他边：无进一步更新。  
+
+   **最终距离**：\( [0, 4, 5, 2] \)
+
+#### **关键点**
+**多次迭代**：  
+   - 由于边的处理顺序为 \( 2 \to 3 \) 在前，而 \( 1 \to 2 \) 在后，导致第1轮无法更新 \( \text{dist}[2] \)，需等待第2轮更新 \( \text{dist}[2] \) 后，第3轮才能通过负权边优化 \( \text{dist}[3] \)。
+
+**负权边的作用**：  
+   - 边 \( 2 \xrightarrow{-3} 3 \) 在第3轮将 \( \text{dist}[3] \) 从5优化为2，体现了负权边对路径的改进。
+
 # SPFA
 ### SPFA算法详解
 
@@ -220,7 +274,7 @@ print(spfa(n, graph, 0))  # 输出 [0,4,2,5]
 
 
 ---
-## bellan 与 dijstra：
+# bellan 与 dijstra：
 ### **二者不同**：
 1. Dijstra算法不能处理负权边，而Bellman-ford可以。**why**
 2. Dijstra算法使用了贪心策略，而Bellman-ford使用了动态规划。
