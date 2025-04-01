@@ -154,6 +154,38 @@ list.remove(obj)
 obj -- 列表中要移除的对象。
 - 返回值：
 该方法没有返回值，但是会移除列表中的某个值的第一个匹配项。
+
+6. (Dictionary) get() 函数返回指定键的值。
+
+   - 语法
+   ~~~py
+   dict.get(key[, value]) 
+   ~~~
+   - 参数
+   key -- 字典中要查找的键。
+   value -- 可选，如果指定键的值不存在时，返回该默认值。
+   返回值
+   返回指定键的值，如果键不在字典中返回默认值 None 或者设置的默认值。
+
+   - 实例
+   ~~~py
+   tinydict = {'Name': 'Runoob', 'Age': 27}
+   print ("Age : %s" %  tinydict.get('Age'))
+   # 没有设置 Sex，也没有设置默认的值，输出 None
+   print ("Sex : %s" %  tinydict.get('Sex'))  
+   # 没有设置 Salary，输出默认的值  0.0
+   print ('Salary: %s' % tinydict.get('Salary', 0.0))
+
+   # 输出结果
+   Age : 27
+   Sex : None
+   Salary: 0.0
+   get() 方法 Vs dict[key] 访问元素区别
+   get(key) 方法在 key（键）不在字典中时，可以返回默认值 None 或者设置的默认值。
+
+   dict[key] 在 key（键）不在字典中时，会触发 KeyError 异常。
+   ~~~
+
 ---
 ## 优化：
 

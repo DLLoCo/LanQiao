@@ -1,4 +1,46 @@
+## 子串问题：
+### 最长公共子串：
+1. dp：
+- **注意与最长公共子序列对比**
+```py
+ dp = [[0 for _ in range(m + 1)] for _ in range(m + 1)]
+    ans = 0
+    for i in range(1,m + 1):
+        for j in range(1,m + 1):
+            dp[i][j] = dp[i - 1][j - 1] + 1 if s[x][i - 1] == s[y][j - 1] else 0
+            ans = max(ans, dp[i][j])
+```
+- 时间复杂度：O(n^2)
+2. 字符串滚动哈希+二分：
+~~~py
+def rabin_karp_hash(s, length):
+        if length == 0:
+            return set()
+        base, mod = 31, 2**61 - 1
+        hash_set = set()
+        hash_value = 0
+        power = 1  
+        for i in range(length):
+            hash_value = (hash_value * base + ord(s[i])) % mod
+            power = (power * base) % mod
+        hash_set.add(hash_value)
+        for i in range(length, len(s)):
+            hash_value = (hash_value * base - ord(s[i - length]) * power + ord(s[i])) % mod
+            hash_set.add(hash_value)
+        return hash_set
 
+def getLongest(s1, s2):
+    n=len(s1)
+    left, right = 0, min(len(s1), len(s2))
+    while left < right:
+        mid = (left + right + 1) // 2
+        if rabin_karp_hash(s1, mid) & rabin_karp_hash(s2, mid): 
+            left = mid  
+        else:
+            right = mid - 1  
+    return min(left,n//2)#考虑字符串可以移动，所以读取时×2，结果要除以2
+~~~
+- 时间复杂度：O(nlogn)
 ## 子序列问题：
 这类问题都是让你求一个最长子序列，因为最短子序列就是一个字符嘛，没啥可问的。一旦涉及到子序列和最值，那几乎可以肯定，考察的是动态规划技巧，时间复杂度一般都是 O(n^2)。
 
@@ -56,12 +98,12 @@ def	longestCommonSubsequence(str1,	str2)->	int:
         return 0
     if str1[i] == str2[j]:
     #这边找到⼀个lcs的元素，继续往前找
-        return	dp(i-1,j-1)+1
+        return dp(i-1,j-1)+1
     else:
     #谁能让	lcs	最⻓，就听谁的
-        return	max(dp(i-1,	j),	dp(i,j-1))
+        return max(dp(i-1,j),dp(i,j-1))
     #i和j初始化为最后⼀个索引
-    return	dp(len(str1)-1,	len(str2)-1)
+    return dp(len(str1)-1,len(str2)-1)
 ```
 ### 最大编辑距离
 - 思路：
