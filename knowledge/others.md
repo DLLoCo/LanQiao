@@ -188,7 +188,15 @@ obj -- 列表中要移除的对象。
 
    dict[key] 在 key（键）不在字典中时，会触发 KeyError 异常。
    ~~~
-
+7. 字符串翻转:
+   ~~~py
+   s = "hello"
+   s = s[::-1]
+   print(s)
+   # output:
+   # olleh
+   s = "".join(reversed(s))
+   ~~~
 ---
 ## 优化：
 
