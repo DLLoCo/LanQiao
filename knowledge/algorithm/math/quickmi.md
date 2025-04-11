@@ -7,15 +7,22 @@
 
 2. 代码：
 ~~~py
-def quick_pow(x, n):
-    ans=1
-    if n == 0:
+def quick(a,b,p):
+    if b==0:
         return 1
-    if n&2==1:
-        ans*=x
-        x=x*x%mod
-        n>>=1
+    ans=1
+    while b:
+        if b&1==1:
+            ans=(ans*a)%p
+        #! a=(a*a)%p 不在 if 模块中
+        a=(a*a)%p
+        #! 不要写成 b>>1
+        b>>=1
     return ans
+
+a,b,p=map(int,input().split())
+
+print(quick(a,b,p))
 ~~~
 3. 时间复杂度：
 - O(logn)
