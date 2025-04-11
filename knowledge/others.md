@@ -297,6 +297,39 @@ isoweekday()：返回星期几的数字，星期一为1，星期日为7。
    # 运行时间很长，直接提交代码会超时。这是填空题，提交结果就行。
    ~~~
 
+## 进制转换库函数:
+- hex 16
+- oct 8
+- bin 2
+- int ( ,base=2/8/16)
+1. 幸运数字 23jB
+```py
+d={"a":10,"b":11,"c":12,"d":13,"e":14,"f":15}
+# 请在此输入您的代码
+s=[]
+n=1
+while len(s)<2023:
+    sh=[int(i) for i in str(n)]
+    sh=sum(sh)
+    # bi=int(str(bin(n))[2:])
+    b=[int(i) for i in str(bin(n))[2:]]
+    b=sum(b)
+    # oc=int(str(oct(n))[2:])
+    o=[int(i) for i in str(oct(n))[2:]]
+    o=sum(o)
+    # he=int(str(hex(n))[2:])
+    h=0
+    for i in str(hex(n))[2:]:
+        if ord(i)>=97:
+            h+=d[i]
+        else:
+            h+=int(i)
+    if n%sh==0 and n%b==0 and n%o==0 and n%h==0:
+        s.append(n)
+    n+=1
+print(s[-1])
+```
+
 ## 概念：
 1. **子树（Subtree）**：
 树形数据结构中，子树（Subtree）是指从一个特定节点（称为子树的根）出发，向下延伸的**所有节点和边组成的树结构**。子树保留了原树的层次关系，是原树的一个**完整分支**。
@@ -312,3 +345,14 @@ isoweekday()：返回星期几的数字，星期一为1，星期日为7。
    / \
   P   Q
 ~~~
+
+## 格式化输出:
+- 左对齐：{value:< width}
+- 右对齐：{value:> width}
+- 居中对齐：{value:^width}
+```py
+name = "Alice"
+print(f"{name:<10}|{name:>10}|{name:^10}")
+# output:
+# Alice     |     Alice|   Alice
+```

@@ -11,8 +11,8 @@ class node:
 2.矩阵n*m：n行，m列
 """
 n,m,x,y=map(int,input().split())
-ans=[[-1 for _ in range(m+1)] for _i in range(n+1)]#! n+1/n ans=[[-1 for _ in range(n)] for _i in range(m)]，ans=[[-1 for _ in range(n+1)] for _i in range(m+1)]
-status=[[0 for _ in range(m+1)] for _i in range(n+1)]
+ans=[[-1 for _ in range(m+1)] for _ in range(n+1)]#! n+1/n ans=[[-1 for _ in range(n)] for _i in range(m)]，ans=[[-1 for _ in range(n+1)] for _i in range(m+1)]
+status=[[0 for _ in range(m+1)] for _ in range(n+1)]
 
 now=node(x,y)
 ans[x][y]=0
